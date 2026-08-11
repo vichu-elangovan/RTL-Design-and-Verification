@@ -1,0 +1,119 @@
+Design Code
+
+
+1.Dataflow
+
+module mux4_dataflow(
+    input I0,I1,I2,I3,
+    input S1,S0,
+    output Y
+);
+
+assign Y = (~S1 & ~S0 & I0) |
+           (~S1 &  S0 & I1) |
+           ( S1 & ~S0 & I2) |
+           ( S1 &  S0 & I3);
+
+endmodule
+
+2.Conditional Flow
+
+module mux4_conditional(
+    input I0,I1,I2,I3,
+    input S1,S0,
+    output Y
+);
+
+assign Y = (S1==0 && S0==0) ? I0 :
+           (S1==0 && S0==1) ? I1 :
+           (S1==1 && S0==0) ? I2 :
+                              I3;
+
+endmodule
+
+3.Behavioral
+
+module mux4_behavioral(
+    input I0,I1,I2,I3,
+    input S1,S0,
+    output reg Y
+);
+
+always @(*)
+begin
+    case({S1,S0})
+
+        2'b00: Y = I0;
+        2'b01: Y = I1;
+        2'b10: Y = I2;
+        2'b11: Y = I3;
+
+    endcase
+end
+
+endmodule
+
+4.Structural Flow
+
+module mux4_structural(
+    input I0,I1,I2,I3,
+    input S1,S0,
+    output Y
+);
+
+wire nS1,nS0;
+wire w1,w2,w3,w4;
+
+not G1(nS1,S1);
+not G2(nS0,S0);
+
+and G3(w1,nS1,nS0,I0);
+and G4(w2,nS1,S0 ,I1);
+and G5(w3,S1 ,nS0,I2);
+and G6(w4,S1 ,S0 ,I3);
+
+or G7(Y,w1,w2,w3,w4);
+
+endmodule
+
+Testbench Code
+
+module test;
+
+reg I0,I1,I2,I3;
+reg S1,S0;
+wire Y;
+
+mux4_dataflow uut(
+    .I0(I0),
+    .I1(I1),
+    .I2(I2),
+    .I3(I3),
+    .S1(S1),
+    .S0(S0),
+    .Y(Y)
+);
+
+initial begin
+
+    $dumpfile("dump.vcd");
+    $dumpvars(0,test);
+
+    $display("S1 S0 | Y");
+
+    I0=0; I1=1; I2=0; I3=1;
+
+    S1=0; S0=0; #10;
+    S1=0; S0=1; #10;
+    S1=1; S0=0; #10;
+    S1=1; S0=1; #10;
+
+    $finish;
+
+end
+
+Output
+
+S1 S0 | Y
+
+endmodule
