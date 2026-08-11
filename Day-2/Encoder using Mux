@@ -1,0 +1,53 @@
+Design Code
+
+module encoder_mux(
+    input D0,D1,D2,D3,
+    output Y1,Y0
+);
+
+assign Y1 = D2 | D3;
+assign Y0 = D1 | D3;
+
+endmodule
+
+Testbench Code
+
+module test;
+
+reg D0,D1,D2,D3;
+wire Y1,Y0;
+
+encoder_mux uut(
+    .D0(D0),
+    .D1(D1),
+    .D2(D2),
+    .D3(D3),
+    .Y1(Y1),
+    .Y0(Y0)
+);
+
+initial begin
+
+    $dumpfile("dump.vcd");
+    $dumpvars(0,test);
+
+    $monitor("D3=%b D2=%b D1=%b D0=%b -> Y1=%b Y0=%b",
+              D3,D2,D1,D0,Y1,Y0);
+
+    D3=0; D2=0; D1=0; D0=1; #10;
+    D3=0; D2=0; D1=1; D0=0; #10;
+    D3=0; D2=1; D1=0; D0=0; #10;
+    D3=1; D2=0; D1=0; D0=0; #10;
+
+    $finish;
+
+end
+
+endmodule
+
+Output
+
+D3=0 D2=0 D1=0 D0=1 -> Y1=0 Y0=0
+D3=0 D2=0 D1=1 D0=0 -> Y1=0 Y0=1
+D3=0 D2=1 D1=0 D0=0 -> Y1=1 Y0=0
+D3=1 D2=0 D1=0 D0=0 -> Y1=1 Y0=1
