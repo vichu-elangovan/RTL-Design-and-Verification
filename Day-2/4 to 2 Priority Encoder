@@ -1,0 +1,61 @@
+Design Code
+
+module priority_encoder(
+    input D0,D1,D2,D3,
+    output reg Y1,Y0
+);
+
+always @(*)
+begin
+
+    if(D3)
+        {Y1,Y0}=2'b11;
+
+    else if(D2)
+        {Y1,Y0}=2'b10;
+
+    else if(D1)
+        {Y1,Y0}=2'b01;
+
+    else
+        {Y1,Y0}=2'b00;
+
+end
+
+endmodule
+
+Testbench Code
+
+module test;
+
+reg D0,D1,D2,D3;
+wire Y1,Y0;
+
+priority_encoder uut(
+    .D0(D0),
+    .D1(D1),
+    .D2(D2),
+    .D3(D3),
+    .Y1(Y1),
+    .Y0(Y0)
+);
+
+initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,test);
+
+    $display("D3 D2 D1 D0 | Y1 Y0");
+
+    D3=0; D2=0; D1=0; D0=1; #10;
+    D3=0; D2=0; D1=1; D0=1; #10;
+    D3=0; D2=1; D1=1; D0=1; #10;
+    D3=1; D2=1; D1=1; D0=1; #10;
+
+    $finish;
+end
+
+endmodule
+
+Output
+
+D3 D2 D1 D0 | Y1 Y0
