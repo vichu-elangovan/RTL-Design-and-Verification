@@ -1,0 +1,105 @@
+module operators;
+
+reg [3:0] A,B;
+
+initial begin
+
+    A = 4'b1010;   // 10
+    B = 4'b0011;   // 3
+
+    $display("A = %b",A);
+    $display("B = %b",B);
+
+    // Arithmetic Operators
+    $display("\nArithmetic Operators");
+    $display("A+B = %d",A+B);
+    $display("A-B = %d",A-B);
+    $display("A*B = %d",A*B);
+    $display("A/B = %d",A/B);
+    $display("A%%B = %d",A%B);
+
+    // Relational Operators
+    $display("\nRelational Operators");
+    $display("A>B  = %b",A>B);
+    $display("A<B  = %b",A<B);
+    $display("A>=B = %b",A>=B);
+    $display("A<=B = %b",A<=B);
+    $display("A==B = %b",A==B);
+    $display("A!=B = %b",A!=B);
+
+    // Logical Operators
+    $display("\nLogical Operators");
+    $display("A&&B = %b",A&&B);
+    $display("A||B = %b",A||B);
+    $display("!A   = %b",!A);
+
+    // Bitwise Operators
+    $display("\nBitwise Operators");
+    $display("A&B = %b",A&B);
+    $display("A|B = %b",A|B);
+    $display("A^B = %b",A^B);
+    $display("~A  = %b",~A);
+
+    // Shift Operators
+    $display("\nShift Operators");
+    $display("A<<1 = %b",A<<1);
+    $display("A>>1 = %b",A>>1);
+
+    // Concatenation
+    $display("\nConcatenation");
+    $display("{A,B} = %b",{A,B});
+
+    // Replication
+    $display("\nReplication");
+    $display("{4{1'b1}} = %b",{4{1'b1}});
+
+    $finish;
+
+end
+
+
+
+
+OUTPUT
+
+A = 1010
+B = 0011
+
+Arithmetic Operators
+A+B = 13
+A-B =  7
+A*B = 14
+A/B =  3
+A%B =  1
+
+Relational Operators
+A>B  = 1
+A<B  = 0
+A>=B = 1
+A<=B = 0
+A==B = 0
+A!=B = 1
+
+Logical Operators
+A&&B = 1
+A||B = 1
+!A   = 0
+
+Bitwise Operators
+A&B = 0010
+A|B = 1011
+A^B = 1001
+~A  = 0101
+
+Shift Operators
+A<<1 = 0100
+A>>1 = 0101
+
+Concatenation
+{A,B} = 10100011
+
+Replication
+{4{1'b1}} = 1111
+design.sv:56: $finish called at 0 (1s)
+
+endmodule
