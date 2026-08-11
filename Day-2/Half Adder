@@ -1,0 +1,88 @@
+Design code 
+
+1.Dataflow
+module halfadder_dataflow(
+    input A,
+    input B,
+    output Sum,
+    output Carry
+);
+
+assign Sum   = A ^ B;
+assign Carry = A & B;
+
+endmodule
+
+2.Structural Fow
+
+module halfadder_structural(
+    input A,
+    input B,
+    output Sum,
+    output Carry
+);
+
+xor G1(Sum, A, B);
+and G2(Carry, A, B);
+
+endmodule
+
+3.Behavioral Flow
+
+module halfadder_behavioral(
+    input A,
+    input B,
+    output reg Sum,
+    output reg Carry
+);
+
+always @(*) begin
+    Sum   = A ^ B;
+    Carry = A & B;
+end
+
+endmodule
+
+
+
+Testbench code
+
+module test;
+
+reg A,B;
+wire Sum,Carry;
+
+// Change module name here
+halfadder_dataflow uut(
+    .A(A),
+    .B(B),
+    .Sum(Sum),
+    .Carry(Carry)
+);
+
+initial begin
+
+    $dumpfile("dump.vcd");
+    $dumpvars(0,test);
+
+    $display("A B | Sum Carry");
+    $monitor("%b %b |  %b    %b",A,B,Sum,Carry);
+
+    A=0; B=0; #10;
+    A=0; B=1; #10;
+    A=1; B=0; #10;
+    A=1; B=1; #10;
+
+    $finish;
+end
+
+
+OUTPUT
+
+A B | Sum Carry
+0 0 |  0    0
+0 1 |  1    0
+1 0 |  1    0
+1 1 |  0    1
+
+endmodule
