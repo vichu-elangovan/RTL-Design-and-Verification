@@ -1,4 +1,4 @@
-// Full Subtractor
+// Full Subtractor code
 module full_subtractor (
     input  wire a,
     input  wire b,
@@ -10,7 +10,7 @@ module full_subtractor (
     assign bout = (~a & b) | (~a & bin) | (b & bin);
 endmodule
 
-// Testbench
+// Testbench code 
 module full_subtractor_tb;
     reg a, b, bin;
     wire diff, bout;
